@@ -1,6 +1,5 @@
 package com.alex_hltk.plugins.apkinstaller;
 
-import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
@@ -9,14 +8,22 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 @CapacitorPlugin(name = "ApkInstaller")
 public class ApkInstallerPlugin extends Plugin {
 
-    private ApkInstaller implementation = new ApkInstaller();
+    private final ApkInstaller implementation = new ApkInstaller();
 
     @PluginMethod
-    public void echo(PluginCall call) {
-        String value = call.getString("value");
+    public void install(PluginCall call) {
+        String filePath = call.getString("filePath");
 
-        JSObject ret = new JSObject();
-        ret.put("value", implementation.echo(value));
-        call.resolve(ret);
+        if (filePath == null) {
+            call.reject("File path must be provided.");
+            return;
+        }
+
+        try {
+            implementation.installAPK(filePath, getContext());
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("Error installing APK", e);
+        }
     }
 }
