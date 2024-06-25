@@ -19,7 +19,7 @@ public class ApkInstaller {
 
         Uri fileUri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            fileUri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+            fileUri = FileProvider.getUriForFile(context, context.getPackageName() + ".plugin.provider", file);
         } else {
             fileUri = Uri.fromFile(file);
         }
