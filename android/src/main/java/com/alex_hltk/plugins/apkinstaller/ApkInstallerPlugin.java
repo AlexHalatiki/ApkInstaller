@@ -23,7 +23,7 @@ public class ApkInstallerPlugin extends Plugin {
             implementation.installAPK(filePath, getContext());
             call.resolve();
         } catch (Exception e) {
-            call.reject("Error installing APK", e);
+            call.reject(e.getMessage(), e);
         }
     }
 }
